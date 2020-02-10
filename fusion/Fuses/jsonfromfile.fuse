@@ -1,0 +1,49 @@
+-- ============================================================================
+-- modules
+-- ============================================================================
+local jsonutils = self and require("jsonutils") or nil
+
+-- ============================================================================
+-- constants
+-- ============================================================================
+FUSE_NAME = "JSONFromFile"
+DATATYPE = "Text"
+
+-- ============================================================================
+-- fuse
+-- ============================================================================
+FuRegisterClass(FUSE_NAME, CT_Tool, {
+    REGID_DataType = DATATYPE,
+    REGID_InputDataType = DATATYPE,
+    REG_NoCommonCtrls = true,
+    REGS_Category = "Vonk\\JSON",
+    REGS_Name = FUSE_NAME,
+    REGS_OpDescription = "Reads a JSON string from a file.",
+    REGS_OpIconString = FUSE_NAME
+})
+
+function Create()
+    -- [[ Creates the user interface. ]]
+    InFile = self:AddInput("File" , "File" , {
+        LINKID_DataType = "Text",
+        INPID_InputControl = "FileControl",
+        FC_IsSaver = false,
+        FC_ClipBrowse = true,
+        LINK_Main = 1,
+        LINK_Visible = false
+    })
+
+    OutText = self:AddOutput("Output" , "Output" , {
+        LINKID_DataType = "Text",
+        LINK_Main = 1
+    })
+end
+
+function Process(req)
+    -- [[ Creates the output. ]]
+    local rel_path = InFile:GetValue(req).Value
+    local abs_path = self.Comp:MapPath(rel_path)
+
+    local json_str = jsonutils.read_json_string(abs_path)
+    OutText:Set(req, Text(json_str))
+end
