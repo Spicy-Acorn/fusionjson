@@ -17,6 +17,7 @@ Contents
 **Fuses**
 
 - jsonfromfile.fuse: Fuse to read a JSON string from a file.
+- jsonget.fuse: Fuse to get the value of a key in a JSON table.
 
 
 **Modules/Lua**
