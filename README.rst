@@ -1,8 +1,8 @@
 FusionJSON
 ==========
 
-FusionJSON is a toolkit created by Kristof Indeherberge and Cedric Duriau to
-allow easy node based JSON operations.
+FusionJSON is a node based JSON library for Blackmagic Design Fusion created
+by Kristof Indeherberge and Cedric Duriau.
 
 Installation
 ------------
