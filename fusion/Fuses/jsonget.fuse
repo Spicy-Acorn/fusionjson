@@ -50,8 +50,8 @@ function Process(req)
     local output = ""
 
     if key ~= nil then
-        local json_data = jsonutils.decode(json_string)
-        value = jsonutils.get(json_data, key)
+        local json_table = jsonutils.decode(json_string)
+        value = jsonutils.get(json_table, key)
         output = tostring(value)
     end
 
