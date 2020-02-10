@@ -1,0 +1,59 @@
+-- ============================================================================
+-- modules
+-- ============================================================================
+local jsonutils = self and require("jsonutils") or nil
+
+-- ============================================================================
+-- constants
+-- ============================================================================
+FUSE_NAME = "JSONGet"
+DATATYPE = "Text"
+
+-- ============================================================================
+-- fuse
+-- ============================================================================
+FuRegisterClass(FUSE_NAME, CT_Tool, {
+    REGID_DataType = DATATYPE,
+    REGID_InputDataType = DATATYPE,
+    REG_NoCommonCtrls = true,
+    REGS_Category = "Vonk\\JSON",
+    REGS_Name = FUSE_NAME,
+    REGS_OpDescription = "Gets the value of a JSON key.",
+    REGS_OpIconString = FUSE_NAME
+})
+
+function Create()
+    -- [[ Creates the user interface. ]]
+    InJSON = self:AddInput("Input", "Input", {
+        LINKID_DataType = "Text",
+        LINK_Main = 1
+    })
+
+    InKey = self:AddInput("Key", "Key", {
+        LINKID_DataType = "Text",
+        INPID_InputControl = "TextEditControl",
+        TEC_Lines = 1
+    })
+
+    OutText = self:AddOutput("Output" , "Output" , {
+        LINKID_DataType = "Text",
+        LINK_Main = 1
+    })
+end
+
+function Process(req)
+    -- [[ Creates the output. ]]
+    local json_string = InJSON:GetValue(req).Value
+    local key = InKey:GetValue(req).Value
+
+    local value = nil
+    local output = ""
+
+    if key ~= nil then
+        local json_data = jsonutils.decode(json_string)
+        value = jsonutils.get(json_data, key)
+        output = tostring(value)
+    end
+
+    OutText:Set(req, Text(output))
+end
