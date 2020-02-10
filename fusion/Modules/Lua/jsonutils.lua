@@ -39,6 +39,19 @@ function jsonutils._decode(json_string)
     return json_table
 end
 
+function jsonutils._encode(json_table)
+    --[[
+        Encodes a json table into a json string.
+
+        :param json_table: JSON table to encode.
+        :type json_table: table
+
+        :rtype: string
+    ]]
+    local json_string = json.encode(json_table)
+    return json_string
+end
+
 function jsonutils._is_json_string_valid(json_string)
     --[[
         Returns whether a json string is valid or not.
@@ -83,12 +96,37 @@ function jsonutils.decode(json_string)
     end
 
     local json_table = jsonutils._decode(json_string)
+
     local is_table_valid = jsonutils._is_json_table_valid(json_table)
     if not is_table_valid then
         error(string.format("cannot decode json string: %s", json_string))
     end
 
     return json_table
+end
+
+function jsonutils.encode(json_table)
+    --[[
+        Encodes a json table into a json string.
+
+        :param json_table: JSON table to encode.
+        :type json_table: table
+
+        :rtype: string
+    ]]
+    local is_table_valid = jsonutils._is_json_table_valid(json_table)
+    if not is_table_valid then
+        error("invalid json table")
+    end
+
+    local json_string = jsonutils._encode(json_table)
+
+    local is_string_valid = jsonutils._is_json_string_valid(json_string)
+    if not is_string_valid then
+        error(string.format("invalid json string: %s", json_string))
+    end
+
+    return json_string
 end
 
 function jsonutils.is_json_string_valid(json_string)
