@@ -6,7 +6,7 @@ local jsonutils = self and require("jsonutils") or nil
 -- ============================================================================
 -- constants
 -- ============================================================================
-FUSE_NAME = "JSONGet"
+FUSE_NAME = "JSONSet"
 DATATYPE = "Text"
 
 -- ============================================================================
@@ -18,7 +18,7 @@ FuRegisterClass(FUSE_NAME, CT_Tool, {
     REG_NoCommonCtrls = true,
     REGS_Category = "Vonk\\JSON",
     REGS_Name = FUSE_NAME,
-    REGS_OpDescription = "Gets the value of a JSON key.",
+    REGS_OpDescription = "Sets a new key value pair in a JSON table.",
     REGS_OpIconString = FUSE_NAME
 })
 
@@ -32,7 +32,15 @@ function Create()
     InKey = self:AddInput("Key", "Key", {
         LINKID_DataType = "Text",
         INPID_InputControl = "TextEditControl",
-        TEC_Lines = 1
+        TEC_Lines = 1,
+        ICD_Width = 0.5
+    })
+
+    InValue = self:AddInput("Value", "Value", {
+        LINKID_DataType = "Text",
+        INPID_InputControl = "TextEditControl",
+        TEC_Lines = 1,
+        ICD_Width = 0.5
     })
 
     OutText = self:AddOutput("Output" , "Output" , {
@@ -45,15 +53,14 @@ function Process(req)
     -- [[ Creates the output. ]]
     local json_string = InJSON:GetValue(req).Value
     local key = InKey:GetValue(req).Value
+    local value = InValue:GetValue(req).Value
 
-    local value = nil
-    local output = ""
-
-    if key ~= nil then
-        local json_table = jsonutils.decode(json_string)
-        value = jsonutils.get(json_table, key)
-        output = tostring(value)
+    local json_table = {}
+    if json_string ~= "" then
+        json_table = jsonutils.decode(json_string)
     end
 
-    OutText:Set(req, Text(output))
+    json_table[key] = value
+    local new_json_string = jsonutils.encode(json_table)
+    OutText:Set(req, Text(new_json_string))
 end
