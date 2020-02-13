@@ -26,6 +26,25 @@ function jsonutils._read_file(path)
     return content
 end
 
+function jsonutils._write_file(path, content)
+    --[[
+        Writes content into a file.
+
+        :param path: Path to write file to.
+        :type path: string
+
+        :param content: Content to write into a file.
+        :type content: string
+    ]]
+    fp = io.open(path, "w")
+    if fp == nil then
+        local directory = path:match("(.*[/\\])")
+        error(string.format("directory does not exist: %s", directory))
+    end
+    fp:write(content)
+    fp:close()
+end
+
 function jsonutils._decode(json_string)
     --[[
         Decodes a json string into a json table.
@@ -176,6 +195,20 @@ function jsonutils.read_json_string(path)
     local json_string = jsonutils._read_file(path)
     jsonutils.validate_json_string(json_string)
     return json_string
+end
+
+function jsonutils.write_json_string(json_string, path)
+    --[[
+        Writes a json string into a file.
+
+        :param json_string: JSON string to write into file.
+        :type json_string: string
+
+        :param path: Path to write a json file to.
+        :type path: string
+    ]]
+    jsonutils.validate_json_string(json_string)
+    jsonutils._write_file(path, json_string)
 end
 
 function jsonutils.get(t, key)
