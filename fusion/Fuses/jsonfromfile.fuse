@@ -28,9 +28,10 @@ function Create()
         LINKID_DataType = "Text",
         INPID_InputControl = "FileControl",
         FC_IsSaver = false,
-        FC_ClipBrowse = true,
+        FC_ClipBrowse = false,
         LINK_Main = 1,
-        LINK_Visible = false
+        LINK_Visible = false,
+        FCS_FilterString =  "JSON (*.json)|*.json"
     })
 
     OutText = self:AddOutput("Output" , "Output" , {
