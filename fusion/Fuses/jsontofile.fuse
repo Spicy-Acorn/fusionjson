@@ -32,7 +32,7 @@ function Create()
     InFile = self:AddInput("File" , "File" , {
         LINKID_DataType = "Text",
         INPID_InputControl = "FileControl",
-        FC_IsSaver = false,
+        FC_IsSaver = true,
         FC_ClipBrowse = false,
         LINK_Main = 2,
         LINK_Visible = false,
