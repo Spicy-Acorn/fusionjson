@@ -4,6 +4,11 @@ FusionJSON
 FusionJSON is a node based JSON library for Blackmagic Design Fusion created
 by Kristof Indeherberge and Cedric Duriau.
 
+Requirements
+------------
+
+- `FusionTypes <https://github.com/cedricduriau/fusiontypes>`_
+
 Installation
 ------------
 
