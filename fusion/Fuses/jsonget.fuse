@@ -53,7 +53,12 @@ function Process(req)
     if key ~= nil then
         local json_table = jsonutils.decode(json_string)
         value = jsonutils.get(json_table, key)
-        output = tostring(value)
+
+        if type(value) == "table" then
+            output = jsonutils.encode(value)
+        else
+            output = tostring(value)
+        end
     end
 
     local fu_text = typeutils.to_fusion_text(output)
