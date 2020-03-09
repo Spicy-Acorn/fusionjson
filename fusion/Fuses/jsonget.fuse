@@ -33,13 +33,46 @@ function Create()
     InKey = self:AddInput("Key", "Key", {
         LINKID_DataType = "Text",
         INPID_InputControl = "TextEditControl",
-        TEC_Lines = 1
+        TEC_Lines = 1,
+        LINK_Main = 2
+    })
+
+    InShowInput = self:AddInput("Show Input", "ShowInput", {
+        LINKID_DataType = "Number",
+        INPID_InputControl = "CheckboxControl",
+        INP_Integer = true,
+        INP_Default = 0.0,
+        INP_External = false,
+        INP_DoNotifyChanged = true,
+        ICD_Width = 0.2
     })
 
     OutText = self:AddOutput("Output" , "Output" , {
         LINKID_DataType = "Text",
         LINK_Main = 1
     })
+end
+
+function NotifyChanged(inp, param, time)
+    --[[
+        Handles all input control events.
+
+        :param inp: Input that triggered a signal.
+        :type inp: Input
+
+        :param param: Parameter object holding the (new) value.
+        :type param: Parameter
+
+        :param time: Current frame number.
+        :type time: float
+    ]]
+    if inp == InShowInput then
+        if param.Value == 1.0 then
+            InKey:SetAttrs({LINK_Visible = true})
+        else
+            InKey:SetAttrs({LINK_Visible = false})
+        end
+    end
 end
 
 function Process(req)
