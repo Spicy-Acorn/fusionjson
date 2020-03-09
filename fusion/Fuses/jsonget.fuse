@@ -43,8 +43,7 @@ function Create()
         INP_Integer = true,
         INP_Default = 0.0,
         INP_External = false,
-        INP_DoNotifyChanged = true,
-        ICD_Width = 0.2
+        INP_DoNotifyChanged = true
     })
 
     OutText = self:AddOutput("Output" , "Output" , {
