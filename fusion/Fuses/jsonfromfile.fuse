@@ -25,7 +25,7 @@ FuRegisterClass(FUSE_NAME, CT_Tool, {
 
 function Create()
     -- [[ Creates the user interface. ]]
-    InFile = self:AddInput("File" , "Input" , {
+    InFile = self:AddInput("Input" , "Input" , {
         LINKID_DataType = "Text",
         INPID_InputControl = "FileControl",
         FC_IsSaver = false,
