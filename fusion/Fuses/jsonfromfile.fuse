@@ -2,7 +2,6 @@
 -- modules
 -- ============================================================================
 local jsonutils = self and require("jsonutils") or nil
-local typeutils = self and require("typeutils") or nil
 
 -- ============================================================================
 -- constants
@@ -77,6 +76,7 @@ function Process(req)
     local abs_path = self.Comp:MapPath(rel_path)
 
     local json_str = jsonutils.read_json_string(abs_path)
-    local fu_text = typeutils.to_fusion_text(json_str)
-    OutText:Set(req, fu_text)
+    local out = Text(json_str)
+
+    OutText:Set(req, out)
 end

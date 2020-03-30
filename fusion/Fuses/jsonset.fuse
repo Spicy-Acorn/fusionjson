@@ -2,7 +2,6 @@
 -- modules
 -- ============================================================================
 local jsonutils = self and require("jsonutils") or nil
-local typeutils = self and require("typeutils") or nil
 
 -- ============================================================================
 -- constants
@@ -63,6 +62,6 @@ function Process(req)
 
     json_table[key] = value
     local new_json_string = jsonutils.encode(json_table)
-    local fu_text = typeutils.to_fusion_text(new_json_string)
-    OutText:Set(req, fu_text)
+    local out = Text(new_json_string)
+    OutText:Set(req, out)
 end
