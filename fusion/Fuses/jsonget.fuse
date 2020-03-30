@@ -2,7 +2,6 @@
 -- modules
 -- ============================================================================
 local jsonutils = self and require("jsonutils") or nil
-local typeutils = self and require("typeutils") or nil
 
 -- ============================================================================
 -- constants
@@ -80,19 +79,19 @@ function Process(req)
     local key = InKey:GetValue(req).Value
 
     local value = nil
-    local output = ""
+    local value_str = ""
 
     if key ~= nil then
         local json_table = jsonutils.decode(json_string)
         value = jsonutils.get(json_table, key)
 
         if type(value) == "table" then
-            output = jsonutils.encode(value)
+            value_str = jsonutils.encode(value)
         else
-            output = tostring(value)
+            value_str = tostring(value)
         end
     end
 
-    local fu_text = typeutils.to_fusion_text(output)
-    OutText:Set(req, fu_text)
+    local out = Text(value_str)
+    OutText:Set(req, out)
 end
